@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://nlukic.com/sitemap-index.xml
+Sitemap: https://cyber3x.github.io/sitemap-index.xml
