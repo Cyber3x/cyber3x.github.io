@@ -2,8 +2,11 @@
 title: "TC in Poland, learning & making international friendships"
 date: "27 Sep 2025"
 description: "Dissemination of my Training course in Poland"
+image: "/static/tc-poland-group-photo.jpeg"
 public: true
 ---
+
+![Group photo in the forrest](/static/tc-poland-group-photo.jpeg)
 
 # Post preview
 
