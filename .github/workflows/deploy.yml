@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - staging # test build-an
 
 jobs:
   build-and-deploy:
@@ -33,12 +32,3 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           cname: blog.nlukic.com
-
-      - name: Deploy to GitHub Pages (Development)
-        if: github.ref == 'refs/heads/staging'
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages-staging
-          cname: staging.blog.nlukic.com
