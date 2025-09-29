@@ -3,7 +3,8 @@ name: Deploy Astro to GitHub Pages
 on:
   push:
     branches:
-      - main # build and deploy whenever main is updated
+      - main
+      - staging # test build-an
 
 jobs:
   build-and-deploy:
@@ -24,10 +25,20 @@ jobs:
       - name: Build Astro site
         run: npm run build
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (Production)
+        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
           cname: blog.nlukic.com
+
+      - name: Deploy to GitHub Pages (Development)
+        if: github.ref == 'refs/heads/staging'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages-staging
+          cname: staging.blog.nlukic.com
