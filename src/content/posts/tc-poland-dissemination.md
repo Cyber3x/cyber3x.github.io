@@ -55,7 +55,7 @@ After breakfast, we had the classic game of remembering names. The idea was that
 
 ### Bingo!
 
-After that, another classic jumped in, Bingo! The thing was that you had a 5x5 grid of questions and the answer had to be some other participant from the group. So the questions would be "Who like to cycle?" and you would find a person that liked to do that. First to get 5 in a row or diagonal won, but since there is no benefit of wining and finishing early, we fulled each of the 25 squares with some names and got to know each other a bit more. And that was the whole point of the activity.
+After that, another classic jumped in, Bingo! The thing was that you had a 5x5 grid of questions and the answer had to be some other participant from the group. So the questions would be "Who like to cycle?" and you would find a person that liked to do that. First to get 5 in a row or diagonal won, but since there is no benefit of wining and finishing early, we filled each of the 25 squares with some names and got to know each other a bit more. And that was the whole point of the activity.
 
 ### Rocks over the fast flowing river
 
