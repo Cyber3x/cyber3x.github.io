@@ -54,34 +54,36 @@ in the build log.
 
 ## Phase 3: Tailwind 3 -> 4
 
-- [ ] `npx astro add tailwind` (installs `@tailwindcss/vite` and adds it to
+- [x] `npx astro add tailwind` (installs `@tailwindcss/vite` and adds it to
       `vite.plugins` in `astro.config.mjs`). Remove `tailwind()` from `integrations`
       and uninstall `@astrojs/tailwind`. Delete `tailwind.config.ts`.
-- [ ] Rewrite the top of `src/styles/global.css`:
+- [x] Rewrite the top of `src/styles/global.css`:
   - `@tailwind base/components/utilities` -> `@import "tailwindcss";`
   - `@custom-variant dark (&:where(.dark, .dark *));` keeps class-based dark mode
     driven by `<html class="dark">`, which the toggle script relies on.
   - `@theme { --font-sans: "Geist", ...; --font-mono: "Geist Mono", ...; }` replaces
     the `fontFamily` extension from `tailwind.config.ts`.
-- [ ] Border color: v4 defaults `border` to `currentColor` instead of `gray-200`. The
+- [x] Border color: v4 defaults `border` to `currentColor` instead of `gray-200`. The
       site relies on the old default in `global.css` (inline code, `pre`, `img`,
       `video`, `kbd`, `th`, `td`, `blockquote`) and `ThemeToggle.astro`. Either add the
       documented compat rule in `@layer base` or add `border-zinc-200` explicitly next
       to each `border`. Prefer explicit classes; it is a handful of places.
-- [ ] `src/components/Header.astro` uses `@apply` inside a scoped `<style>`. In v4 that
+- [x] `src/components/Header.astro` uses `@apply` inside a scoped `<style>`. In v4 that
       needs `@reference "../styles/global.css";` at the top of the style block. Simpler:
       drop the style block and put the classes on the three `<a>` tags.
-- [ ] Check renamed utilities. In use: `rounded`, `rounded-md`, `rounded-lg` (unchanged),
+- [x] Check renamed utilities. In use: `rounded`, `rounded-md`, `rounded-lg` (unchanged),
       `size-4`, `text-nowrap` (fine). Nothing uses `shadow`, `ring`, `outline-none`, or
       `!` prefixes. Nested `@apply` inside `@layer components` is supported by v4's
       native nesting.
-- [ ] `hover:` variants now sit behind `@media (hover: hover)`. Accept this; touch
+- [x] `hover:` variants now sit behind `@media (hover: hover)`. Accept this; touch
       devices simply skip hover styles.
-- [ ] Bump tooling: `prettier-plugin-tailwindcss` -> 0.8.x and add
+- [x] Bump tooling: `prettier-plugin-tailwindcss` -> 0.8.x and add
       `"tailwindStylesheet": "./src/styles/global.css"` to the prettier config;
-      `tailwind-merge` -> 3.x (v4-aware class conflict rules).
-- [ ] Optional: run `npx @tailwindcss/upgrade` on a scratch branch first to see what it
-      would change, then apply by hand. It does not understand `.astro` scoped styles.
+      `tailwind-merge` -> 3.x (v4-aware class conflict rules). Note: the 0.8.x plugin
+      crashes under Prettier 3.4, so `prettier`, `prettier-plugin-astro` and
+      `prettier-plugin-astro-organize-imports` were bumped to latest at the same time.
+- [x] Skipped `npx @tailwindcss/upgrade`; the migration was done by hand since the
+      stylesheet is small.
 
 Verify: light/dark heading colors, code block borders and Shiki dark override, theme
 toggle button border, table borders, fonts loading (check the network tab for the two
