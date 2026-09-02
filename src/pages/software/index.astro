@@ -1,22 +1,14 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import SectionHeading from "../../components/SectionHeading.astro";
+import SoftwareSection from "../../components/SoftwareSection.astro";
 import Layout from "../../layouts/Layout.astro";
 
 const description = "The software I use, grouped so it is easy to skim.";
 
-const entries = (await getCollection("software")).sort(
+const sections = (await getCollection("software")).sort(
   (a, b) =>
     a.data.order - b.data.order || a.data.title.localeCompare(b.data.title),
-);
-
-const sections = await Promise.all(
-  entries.map(async (entry) => ({
-    id: entry.id,
-    ...entry.data,
-    hasBody: (entry.body ?? "").trim().length > 0,
-    Content: (await render(entry)).Content,
-  })),
 );
 ---
 
@@ -24,85 +16,26 @@ const sections = await Promise.all(
   <main>
     <SectionHeading title="Software" description={description} />
 
-    {
-      sections.length === 0 ? (
-        <p class="text-muted">Nothing listed yet.</p>
-      ) : (
-        <>
-          <nav aria-label="Sections" class="font-mono text-sm leading-relaxed">
-            <div>software</div>
-            <ul>
-              {sections.map((section, i) => (
-                <li class="whitespace-pre">
-                  <span aria-hidden="true" class="text-muted">
-                    {i === sections.length - 1 ? "└── " : "├── "}
-                  </span>
-                  <a href={`#${section.id}`} class="hover:underline">
-                    {section.title}
-                  </a>
-                  {section.items.length > 0 && (
-                    <span class="text-muted"> ({section.items.length})</span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </nav>
+    {sections.length === 0 && <p class="text-muted">Nothing listed yet.</p>}
 
-          <hr class="my-16 border-zinc-200 dark:border-night-border" />
+    <nav aria-label="Sections">
+      <h2 class="mb-1 text-sm font-medium text-muted">Sections</h2>
+      <ul class="space-y-0.5 font-mono">
+        {
+          sections.map(({ id, data }) => (
+            <li>
+              <a href={`#${id}`} class="hover:underline">
+                {data.title}
+              </a>
+              {data.items.length > 0 && (
+                <span class="text-sm text-muted"> ({data.items.length})</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
 
-          <div>
-            {sections.map((section, i) => (
-              <>
-                {i > 0 && (
-                  <hr class="my-16 border-zinc-200 dark:border-night-border" />
-                )}
-                <section id={section.id} class="scroll-mt-8">
-                  <h2 class="text-2xl font-medium">
-                    <a href={`#${section.id}`} class="hover:underline">
-                      {section.title}
-                    </a>
-                  </h2>
-                  {section.description && (
-                    <p class="mt-1 text-muted">{section.description}</p>
-                  )}
-
-                  {section.hasBody && (
-                    <article>
-                      <section.Content />
-                    </article>
-                  )}
-
-                  {section.items.length === 0 ? (
-                    <p class="mt-4 text-muted">Nothing listed yet.</p>
-                  ) : (
-                    <ul class="mt-6 grid gap-y-2 sm:grid-cols-[max-content_1fr] sm:items-baseline sm:gap-x-6">
-                      {section.items.map(({ name, url, note }) => (
-                        <li class="flex flex-col sm:contents">
-                          {url ? (
-                            <a
-                              href={url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              class="font-medium underline decoration-zinc-300 underline-offset-4 hover:decoration-current dark:decoration-night-border"
-                            >
-                              {name}
-                            </a>
-                          ) : (
-                            <span class="font-medium">{name}</span>
-                          )}
-                          {note && (
-                            <span class="text-sm text-muted">{note}</span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-              </>
-            ))}
-          </div>
-        </>
-      )
-    }
+    {sections.map((entry) => <SoftwareSection entry={entry} />)}
   </main>
 </Layout>

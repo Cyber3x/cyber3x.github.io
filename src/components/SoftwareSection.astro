@@ -1,0 +1,55 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"software">;
+}
+
+const { entry } = Astro.props;
+const { title, description, items } = entry.data;
+const { Content } = await render(entry);
+const hasBody = (entry.body ?? "").trim().length > 0;
+---
+
+<hr class="my-16 border-zinc-200 dark:border-night-border" />
+
+<section id={entry.id} class="scroll-mt-8">
+  <h2 class="text-2xl font-medium">
+    <a href={`#${entry.id}`} class="hover:underline">{title}</a>
+  </h2>
+  {description && <p class="mt-1 text-muted">{description}</p>}
+
+  {
+    hasBody && (
+      <article>
+        <Content />
+      </article>
+    )
+  }
+
+  {items.length === 0 && <p class="mt-4 text-muted">Nothing listed yet.</p>}
+
+  <ul
+    class="mt-6 grid gap-y-2 sm:grid-cols-[max-content_1fr] sm:items-baseline sm:gap-x-6"
+  >
+    {
+      items.map(({ name, url, note }) => (
+        <li class="flex flex-col sm:contents">
+          {url ? (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium underline decoration-zinc-300 underline-offset-4 hover:decoration-current dark:decoration-night-border"
+            >
+              {name}
+            </a>
+          ) : (
+            <span class="font-medium">{name}</span>
+          )}
+          {note && <span class="text-sm text-muted">{note}</span>}
+        </li>
+      ))
+    }
+  </ul>
+</section>

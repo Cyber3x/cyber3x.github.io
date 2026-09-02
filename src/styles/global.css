@@ -89,7 +89,7 @@
       @apply my-4 border-l-2 border-zinc-200 pl-4 dark:border-night-border;
     }
     a {
-      @apply text-blue-600 underline dark:text-night-link;
+      @apply text-blue-800 underline decoration-2 underline-offset-4 dark:text-night-link;
     }
     table {
       @apply my-4 w-full table-auto border-collapse text-sm;
