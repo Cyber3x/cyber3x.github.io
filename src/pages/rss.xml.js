@@ -8,9 +8,11 @@ export async function GET(context) {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     site: context.site,
-    items: posts.filter(post => post.data.public).map((post) => ({
-      ...post.data,
-      link: `/posts/${post.slug}/`,
-    })),
+    items: posts
+      .filter((post) => post.data.public)
+      .map((post) => ({
+        ...post.data,
+        link: `/posts/${post.id}/`,
+      })),
   });
 }

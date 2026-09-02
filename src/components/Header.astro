@@ -1,19 +1,16 @@
 ---
 import { EMAIL } from "../consts";
 import ThemeToggle from "./ThemeToggle.astro";
+
+const linkClass =
+  "font-medium text-zinc-500 hover:text-zinc-900 hover:underline dark:hover:text-zinc-100";
 ---
 
 <header class="mb-6 flex items-center justify-between" transition:name="header">
   <nav class="flex items-center gap-4">
-    <a href="/"> home </a>
-    <a href="/posts"> posts </a>
-    <a href={`mailto:${EMAIL}`}>email</a>
+    <a href="/" class={linkClass}>home</a>
+    <a href="/posts" class={linkClass}>posts</a>
+    <a href={`mailto:${EMAIL}`} class={linkClass}>email</a>
   </nav>
   <ThemeToggle />
 </header>
-
-<style>
-  a {
-    @apply font-medium text-zinc-500 hover:text-zinc-900 hover:underline dark:hover:text-zinc-100;
-  }
-</style>
