@@ -123,19 +123,20 @@ both themes, sitemap and RSS regenerate.
 
 ## Phase 5: Deploy workflow
 
-- [ ] Replace `.github/workflows/deploy.yml` with the official pattern:
-      `actions/checkout@v5` + `withastro/action@v6` (build job, `node-version: 22`) then
+- [x] Replace `.github/workflows/deploy.yml` with the official pattern:
+      `actions/checkout@v7` + `withastro/action@v6` (build job, `node-version: 22`) then
       `actions/deploy-pages@v5` (deploy job), with
       `permissions: { contents: read, pages: write, id-token: write }` and a
       `concurrency` group so overlapping pushes cancel.
-- [ ] Move `CNAME` from the repo root to `public/CNAME` so it is copied into `dist/`
+- [x] Move `CNAME` from the repo root to `public/CNAME` so it is copied into `dist/`
       and served by Pages. The root file is unused today (the old action wrote its own).
 - [ ] Manual step, repo settings: Settings -> Pages -> Source -> "GitHub Actions".
       Until this is flipped the new workflow will fail on the deploy step.
 - [ ] After the first successful deploy, delete the now-unused `gh-pages` branch.
-- [ ] Add `.github/workflows/ci.yml` running on pull requests and pushes to `dev`:
-      `npm ci`, `npm run build`, `npm run format:check`. Gives a red/green check on the
-      `dev` -> `main` PR before anything hits production.
+- [x] Add `.github/workflows/ci.yml` running on pull requests and pushes to `dev`:
+      `npm ci`, `npm run format:check`, `npm run build`. Gives a red/green check on the
+      `dev` -> `main` PR before anything hits production. `README.md` was run through
+      Prettier so the format check starts green.
 
 Verify: push to `main` deploys, `https://blog.nlukic.com` serves the new build with the
 custom domain intact and HTTPS still enforced, `robots.txt` and `sitemap-index.xml`
