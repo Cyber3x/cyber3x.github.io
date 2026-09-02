@@ -1,5 +1,5 @@
 ---
-import { EMAIL, SITE_TITLE, SITE_SOURCE_CODE_LINK} from "../consts";
+import { EMAIL, SITE_SOURCE_CODE_LINK, SITE_TITLE } from "../consts";
 
 const year = new Date().getFullYear();
 const linkClass =
@@ -13,10 +13,6 @@ const linkClass =
   <nav class="flex items-center gap-4">
     <a href={`mailto:${EMAIL}`} class={linkClass}>email</a>
     <a href="/rss.xml" class={linkClass}>rss</a>
-    <a
-      href={SITE_SOURCE_CODE_LINK}
-      class={linkClass}
-      rel="noopener">source</a
-    >
+    <a href={SITE_SOURCE_CODE_LINK} class={linkClass} rel="noopener">source</a>
   </nav>
 </footer>

@@ -72,6 +72,28 @@ const pageTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
     <ClientRouter />
+
+    <!-- Theme: applied before paint, and to the incoming document on every swap. -->
+    <script is:inline>
+      (() => {
+        const getTheme = () => {
+          try {
+            const stored = localStorage.getItem("theme");
+            if (stored === "dark" || stored === "light") return stored;
+          } catch {}
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        };
+        const applyTheme = (doc) =>
+          doc.documentElement.classList.toggle("dark", getTheme() === "dark");
+
+        applyTheme(document);
+        document.addEventListener("astro:before-swap", (event) =>
+          applyTheme(event.newDocument),
+        );
+      })();
+    </script>
   </head>
   <body
     class="font-sans text-zinc-900 antialiased transition-colors dark:bg-zinc-900 dark:text-zinc-200"
@@ -85,34 +107,3 @@ const pageTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
     </div>
   </body>
 </html>
-
-<script is:inline>
-  const setTheme = () => {
-    let theme;
-
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      theme = localStorage.getItem("theme");
-    } else {
-      theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-
-    document.documentElement.classList[theme ? "add" : "remove"](theme);
-
-    if (typeof localStorage !== "undefined") {
-      const observer = new MutationObserver(() => {
-        const isDark = document.documentElement.classList.contains("dark");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-      });
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-    }
-  };
-
-  setTheme();
-
-  document.addEventListener("astro:after-swap", setTheme);
-</script>
