@@ -1,5 +1,10 @@
 ---
-import { EMAIL, SITE_SOURCE_CODE_LINK, SITE_TITLE } from "@/consts";
+import {
+  BLUESKY_LINK,
+  EMAIL,
+  SITE_SOURCE_CODE_LINK,
+  SITE_TITLE,
+} from "@/consts";
 
 const year = new Date().getFullYear();
 const linkClass =
@@ -12,6 +17,12 @@ const linkClass =
   <span>{SITE_TITLE} {year}</span>
   <nav class="flex items-center gap-4">
     <a href={`mailto:${EMAIL}`} class={linkClass}>email</a>
+    <a
+      href={BLUESKY_LINK}
+      class={linkClass}
+      target="_blank"
+      rel="noopener noreferrer me">bluesky</a
+    >
     <a href="/rss.xml" class={linkClass} target="_blank" rel="noopener">rss</a>
     <a
       href={SITE_SOURCE_CODE_LINK}

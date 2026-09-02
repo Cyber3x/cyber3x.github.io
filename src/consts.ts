@@ -6,6 +6,7 @@ export const SITE_SOURCE_CODE_LINK =
   "https://github.com/Cyber3x/cyber3x.github.io";
 
 export const EMAIL = "neven@nlukic.com";
+export const BLUESKY_LINK = "https://bsky.app/profile/nlukic.com";
 
 export const SITE_NAV = [
   { label: "home", href: "/" },
