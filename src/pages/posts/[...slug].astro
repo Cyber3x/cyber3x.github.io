@@ -1,7 +1,7 @@
 ---
+import Layout from "@/layouts/Layout.astro";
+import { formatDate } from "@/lib/utils";
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import { formatDate } from "../../lib/utils";
 
 export async function getStaticPaths() {
   // Drafts (public: false) are only built in dev so they can be previewed.

@@ -47,7 +47,8 @@ const hasBody = (entry.body ?? "").trim().length > 0;
           ) : (
             <span class="font-medium">{name}</span>
           )}
-          {note && <span class="text-sm text-muted">{note}</span>}
+          {/* Always rendered: a row with one cell would shift every row after it. */}
+          <span class="text-sm text-muted">{note}</span>
         </li>
       ))
     }
