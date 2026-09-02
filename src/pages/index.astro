@@ -1,21 +1,33 @@
 ---
+import { getCollection } from "astro:content";
+import PostList from "../components/PostList.astro";
+import SectionHeading from "../components/SectionHeading.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import Layout from "../layouts/Layout.astro";
+
+const posts = (
+  await getCollection("posts", ({ data }) => data.public || import.meta.env.DEV)
+)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
 ---
 
-<Layout
-  title={SITE_TITLE}
-  description={SITE_DESCRIPTION}
-  className="flex h-svh max-w-sm flex-col justify-center"
->
-  <main class="space-y-4">
-    <p>
-      <span class="font-bold text-red-600 dark:text-orange-500">Neven's</span> blog.
-      Welcome!
-    </p>
-    <p>
-      A piece of internet where I think, hopefully, and then share those
-      thoughts with strangers.
-    </p>
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <main class="space-y-12">
+    <section class="space-y-4">
+      <p>
+        Hi, I'm <span class="font-bold text-red-600 dark:text-orange-500"
+          >Neven</span
+        >. I build software and this is where I keep what I learn along the way.
+      </p>
+    </section>
+
+    <section>
+      <SectionHeading title="Latest posts" level={2} />
+      <PostList posts={posts} />
+      <p class="mt-4">
+        <a href="/posts" class="text-zinc-500 hover:underline">All posts</a>
+      </p>
+    </section>
   </main>
 </Layout>
