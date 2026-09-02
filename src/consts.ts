@@ -15,4 +15,5 @@ export const SITE_NAV = [
   // Re-enable with the software/services list (garden plan, Phase 3).
   // { label: "gear", href: "/uses" },
   { label: "computer", href: "/computer" },
+  { label: "software", href: "/software" },
 ] as const;

@@ -1,0 +1,108 @@
+---
+import { getCollection, render } from "astro:content";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Layout from "../../layouts/Layout.astro";
+
+const description = "The software I use, grouped so it is easy to skim.";
+
+const entries = (await getCollection("software")).sort(
+  (a, b) =>
+    a.data.order - b.data.order || a.data.title.localeCompare(b.data.title),
+);
+
+const sections = await Promise.all(
+  entries.map(async (entry) => ({
+    id: entry.id,
+    ...entry.data,
+    hasBody: (entry.body ?? "").trim().length > 0,
+    Content: (await render(entry)).Content,
+  })),
+);
+---
+
+<Layout title="Software" description={description}>
+  <main>
+    <SectionHeading title="Software" description={description} />
+
+    {
+      sections.length === 0 ? (
+        <p class="text-muted">Nothing listed yet.</p>
+      ) : (
+        <>
+          <nav aria-label="Sections" class="font-mono text-sm leading-relaxed">
+            <div>software</div>
+            <ul>
+              {sections.map((section, i) => (
+                <li class="whitespace-pre">
+                  <span aria-hidden="true" class="text-muted">
+                    {i === sections.length - 1 ? "└── " : "├── "}
+                  </span>
+                  <a href={`#${section.id}`} class="hover:underline">
+                    {section.title}
+                  </a>
+                  {section.items.length > 0 && (
+                    <span class="text-muted"> ({section.items.length})</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <hr class="my-16 border-zinc-200 dark:border-night-border" />
+
+          <div>
+            {sections.map((section, i) => (
+              <>
+                {i > 0 && (
+                  <hr class="my-16 border-zinc-200 dark:border-night-border" />
+                )}
+                <section id={section.id} class="scroll-mt-8">
+                  <h2 class="text-2xl font-medium">
+                    <a href={`#${section.id}`} class="hover:underline">
+                      {section.title}
+                    </a>
+                  </h2>
+                  {section.description && (
+                    <p class="mt-1 text-muted">{section.description}</p>
+                  )}
+
+                  {section.hasBody && (
+                    <article>
+                      <section.Content />
+                    </article>
+                  )}
+
+                  {section.items.length === 0 ? (
+                    <p class="mt-4 text-muted">Nothing listed yet.</p>
+                  ) : (
+                    <ul class="mt-6 space-y-2">
+                      {section.items.map(({ name, url, note }) => (
+                        <li class="flex flex-wrap items-baseline gap-x-4 gap-y-0.5">
+                          {url ? (
+                            <a
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="font-medium underline decoration-zinc-300 underline-offset-4 hover:decoration-current dark:decoration-night-border"
+                            >
+                              {name}
+                            </a>
+                          ) : (
+                            <span class="font-medium">{name}</span>
+                          )}
+                          {note && (
+                            <span class="text-sm text-muted">{note}</span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </section>
+              </>
+            ))}
+          </div>
+        </>
+      )
+    }
+  </main>
+</Layout>

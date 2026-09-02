@@ -46,4 +46,28 @@ const computers = defineCollection({
   }),
 });
 
-export const collections = { posts, computers };
+/**
+ * Sections listed on /software. One Markdown file per section (e.g. Firefox extensions,
+ * CLI tools). Items live in frontmatter like machine specs; the filename becomes the
+ * section's anchor; an optional body renders as prose above the list.
+ */
+const software = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.md", base: "./src/content/software" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    /** Lower numbers first in the tree and on the page. */
+    order: z.number().default(100),
+    items: z
+      .array(
+        z.object({
+          name: z.string(),
+          url: z.url().optional(),
+          note: z.string().optional(),
+        }),
+      )
+      .default([]),
+  }),
+});
+
+export const collections = { posts, computers, software };
