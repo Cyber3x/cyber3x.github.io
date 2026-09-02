@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import Machine from "../../components/Machine.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Layout from "../../layouts/Layout.astro";
+import { cn } from "../../lib/utils";
+
+const description = "The machines I work on, what runs on them, and why.";
+
+const machines = (
+  await getCollection(
+    "computers",
+    ({ data }) => data.public || import.meta.env.DEV,
+  )
+).sort(
+  (a, b) =>
+    a.data.order - b.data.order ||
+    a.data.status.localeCompare(b.data.status) ||
+    a.data.name.localeCompare(b.data.name),
+);
+---
+
+<Layout title="Computer" description={description}>
+  <main>
+    <SectionHeading title="Computer" description={description} />
+
+    {
+      machines.length === 0 ? (
+        <p class="text-muted">No machines listed yet.</p>
+      ) : (
+        <>
+          <nav aria-label="Machines" class="mb-12">
+            <ul class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-sm">
+              {machines.map(({ data }) => (
+                <li>
+                  <a
+                    href={`#${data.name}`}
+                    class={cn(
+                      "text-muted hover:underline",
+                      data.status === "retired" && "line-through",
+                    )}
+                  >
+                    {data.name}
+                  </a>
+                  {data.status === "retired" && (
+                    <span class="sr-only"> (retired)</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div class="space-y-16">
+            {machines.map((machine) => (
+              <Machine machine={machine} />
+            ))}
+          </div>
+        </>
+      )
+    }
+  </main>
+</Layout>

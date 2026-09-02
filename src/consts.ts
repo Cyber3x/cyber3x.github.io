@@ -10,6 +10,9 @@ export const EMAIL = "neven@nlukic.com";
 export const SITE_NAV = [
   { label: "home", href: "/" },
   { label: "posts", href: "/posts" },
-  { label: "notes", href: "/notes" },
-  { label: "gear", href: "/uses" },
+  // Re-enable once the first notes exist (garden plan, Phase 2).
+  // { label: "notes", href: "/notes" },
+  // Re-enable with the software/services list (garden plan, Phase 3).
+  // { label: "gear", href: "/uses" },
+  { label: "computer", href: "/computer" },
 ] as const;

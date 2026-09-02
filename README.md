@@ -34,9 +34,15 @@ public: true # false = draft, built in dev only
 
 The filename is the URL: `my-post.md` becomes `/posts/my-post`.
 
-### Notes and uses
+### Computers
 
-See `docs/garden-plan.md` for the notes garden and the uses page; both are in progress.
+One Markdown file per machine in `src/content/computers/`, rendered on `/computer`.
+Specs and metadata live in frontmatter, the story of the machine in the body. See
+`example.md` there for every field; set `public: false` to keep an entry dev-only.
+
+### Notes and gear
+
+Planned, not built yet. See `docs/garden-plan.md` for the notes garden and the gear page.
 
 ## Deploy
 
