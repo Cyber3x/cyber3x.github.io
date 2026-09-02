@@ -91,29 +91,30 @@ woff2 files), `npm run format:check` passes.
 
 ## Phase 4: Astro 5 -> 7
 
-- [ ] `npx @astrojs/upgrade` to bump `astro`, `@astrojs/mdx` (-> 8), `@astrojs/rss`,
-      `@astrojs/sitemap`, `@astrojs/check`, `typescript`. Review its output; apply
-      manually if it refuses on the major jump.
-- [ ] `src/layouts/Layout.astro`: `ViewTransitions` -> `ClientRouter`
+- [x] Bumped `astro` (7.2), `@astrojs/mdx` (8.0), `@astrojs/rss`, `@astrojs/sitemap`,
+      `@astrojs/check` with a plain `npm install ...@latest`; `typescript` kept on 5.x
+      since the Astro checker still targets it. Ran `npm dedupe` afterwards to remove
+      a stale nested Vite 6 under the Tailwind plugin.
+- [x] `src/layouts/Layout.astro`: `ViewTransitions` -> `ClientRouter`
       (`import { ClientRouter } from "astro:transitions"`). The old name is removed
       in v6.
-- [ ] Astro 7 compiler is Rust-based and strict about HTML: unclosed tags fail the
+- [x] Astro 7 compiler is Rust-based and strict about HTML: unclosed tags fail the
       build. Audit the four `.astro` files. Nothing suspicious found on first read, but
       the build will tell.
-- [ ] Astro 7 default Markdown processor is Sätteri, not remark/rehype. This project
+- [x] Astro 7 default Markdown processor is Sätteri, not remark/rehype. This project
       uses no remark or rehype plugins, so no action. `shikiConfig.themes` (dual
       light/dark) is still supported; confirm the rendered `<pre>` still carries
       `.astro-code` and `--shiki-dark*` CSS variables that `global.css` overrides in
       dark mode. If the class or variable names changed, update the override.
-- [ ] `compressHTML` default is now `'jsx'`. Check `src/pages/index.astro`: the space
+- [x] `compressHTML` default is now `'jsx'`. Check `src/pages/index.astro`: the space
       between `<span>Neven's</span>` and `blog.` is on the same line, so it should
       survive. If it does not, use `{" "}`.
-- [ ] Zod 4 ships with Astro 6+. Schema uses `z.string()`, `z.coerce.date()`,
+- [x] Zod 4 ships with Astro 6+. Schema uses `z.string()`, `z.coerce.date()`,
       `z.boolean()`, `.default()`: all fine.
-- [ ] Shiki 4 ships with Astro 6+. Confirm `catppuccin-latte` and `catppuccin-mocha`
+- [x] Shiki 4 ships with Astro 6+. Confirm `catppuccin-latte` and `catppuccin-mocha`
       are still bundled theme names.
-- [ ] Vite 8 underneath. No custom Vite config beyond the Tailwind plugin.
-- [ ] Remove `strictNullChecks` from `tsconfig.json` if `astro/tsconfigs/strict`
+- [x] Vite 8 underneath. No custom Vite config beyond the Tailwind plugin.
+- [x] Remove `strictNullChecks` from `tsconfig.json` if `astro/tsconfigs/strict`
       already sets it (it does); keep the file minimal.
 
 Verify: full build, route list unchanged, view transitions still animate between pages,
