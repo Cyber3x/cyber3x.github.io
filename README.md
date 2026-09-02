@@ -1,84 +1,52 @@
-# Miniblog
+# nlukic.com
 
-**Miniblog** is an opinionated and extremely minimal blogging template built with [Astro](https://astro.build/) and [Tailwind CSS](https://tailwindcss.com/), whose design is heavily inspired by [jrmyphlmn.com](https://jrmyphlmn.com/). Incredibly easy to use and customize, you can use **Miniblog** as is, or add as much as you want to it.
+Personal site of Neven Lukić: a blog, a public notes garden, and a page about the tools I
+use. Built with [Astro](https://astro.build/) and [Tailwind CSS](https://tailwindcss.com/),
+deployed to GitHub Pages.
 
-- Blog post authoring using [Markdown](https://www.markdownguide.org/) and [MDX](https://mdxjs.com/) for component-style content
-- Code block syntax highlighting with [Shiki](https://github.com/shikijs/shiki)
-- [RSS](https://en.wikipedia.org/wiki/RSS) feed and sitemap generation
-- SEO optimization, with customizable OpenGraph image support
-- Code formatting with [Prettier](https://prettier.io/)
-- Accessible view transitions
-- Dark mode
+## Develop
 
-## Getting Started
-
-1. Click "Use this template", the big green button on the top right, to create a new repository with this template.
-
-2. Clone the repository:
-
-```bash
-git clone https://github.com/[YOUR_USERNAME]/[YOUR_REPO_NAME].git
-cd [YOUR_REPO_NAME]
-```
-
-3. Install dependencies:
+Requires Node 22 (see `.nvmrc`).
 
 ```bash
 npm install
+npm run dev        # http://localhost:4321
+npm run build      # type check + production build into dist/
+npm run preview    # serve dist/ locally
+npm run format     # prettier --write
 ```
 
-4. Start the development server:
+## Content
 
-```bash
-npm run dev
-```
+### Posts
 
-5. Optionally, format your code after making changes:
+Markdown or MDX files in `src/content/posts/`. Frontmatter:
 
-```bash
-npm run format
-```
-
-## Customization
-
-**Miniblog** purposely keeps itself minimal, relying on no other web framework than Astro, and keeping styling simple through Tailwind and traditional CSS.
-
-### Site Configuration
-
-Edit the `src/consts.ts` file to update your information and site's metadata:
-
-```ts
-export const SITE_URL = "https://miniblog.nicholasly.com";
-export const SITE_TITLE = "Miniblog";
-export const SITE_DESCRIPTION = "Welcome to my website!";
-
-export const EMAIL = "hello@nicholasly.com";
-```
-
-### Blog Posts
-
-Add new blog posts as Markdown or MDX files in the `src/content/posts/` directory. Use the following frontmatter structure:
-
-```yml
+```yaml
 ---
-title: "Lorem Ipsum"
-description: "Lorem ipsum dolor sit amet."
-date: "Nov 06 2024"
+title: "Post title"
+description: "One sentence for meta tags and RSS."
+date: "27 Sep 2025"
+image: "/static/cover.jpeg" # optional, defaults to the placeholder
+public: true # false = draft, built in dev only
 ---
 ```
 
-### Markdown Styling
+The filename is the URL: `my-post.md` becomes `/posts/my-post`.
 
-All Markdown-specific CSS styling is customizable in `src/styles/global.css`:
+### Notes and uses
 
-```css
-@layer components {
-  article {
-    /* ... */
-  }
-}
-```
+See `docs/garden-plan.md` for the notes garden and the uses page; both are in progress.
 
-## License
+## Deploy
 
-This project is open source and available under the [MIT License](LICENSE).
+Pushing to `main` runs `.github/workflows/deploy.yml`, which builds the site with the
+official Astro action and publishes it to GitHub Pages. Pull requests and pushes to `dev`
+run `.github/workflows/ci.yml` (Prettier check + build).
+
+Work happens on `dev` and lands on `main` through a pull request.
+
+## Credits
+
+Started from Nicholas Ly's [Miniblog](https://github.com/nicholasly/miniblog) template, MIT
+licensed. See `LICENSE`.
