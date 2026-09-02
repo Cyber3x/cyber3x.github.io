@@ -3,16 +3,21 @@ import { EMAIL, SITE_SOURCE_CODE_LINK, SITE_TITLE } from "../consts";
 
 const year = new Date().getFullYear();
 const linkClass =
-  "hover:text-zinc-900 hover:underline dark:hover:text-zinc-100";
+  "hover:text-zinc-900 hover:underline dark:hover:text-night-text";
 ---
 
 <footer
-  class="mt-16 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-zinc-200 pt-4 text-sm text-muted dark:border-zinc-700"
+  class="mt-16 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-zinc-200 pt-4 text-sm text-muted dark:border-night-border"
 >
   <span>{SITE_TITLE} · {year}</span>
   <nav class="flex items-center gap-4">
     <a href={`mailto:${EMAIL}`} class={linkClass}>email</a>
-    <a href="/rss.xml" class={linkClass}>rss</a>
-    <a href={SITE_SOURCE_CODE_LINK} class={linkClass} rel="noopener">source</a>
+    <a href="/rss.xml" class={linkClass} target="_blank" rel="noopener">rss</a>
+    <a
+      href={SITE_SOURCE_CODE_LINK}
+      class={linkClass}
+      target="_blank"
+      rel="noopener noreferrer">source</a
+    >
   </nav>
 </footer>

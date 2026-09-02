@@ -18,7 +18,7 @@ const isActive = (href: string) =>
           aria-current={isActive(href) ? "page" : undefined}
           class={cn(
             "font-medium text-muted hover:text-zinc-900 hover:underline dark:hover:text-zinc-100",
-            isActive(href) && "text-zinc-900 dark:text-zinc-100",
+            isActive(href) && "text-zinc-900 dark:text-night-text",
           )}
         >
           {label}
