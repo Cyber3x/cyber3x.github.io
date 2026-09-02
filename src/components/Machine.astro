@@ -21,6 +21,11 @@ const {
 } = machine.data;
 const { Content } = await render(machine);
 
+// Applied per element rather than on the flex container: a decoration set on the
+// container is propagated into each flex child at the container's font metrics, which
+// draws the line at a different height on the mono codename and the smaller title.
+const strike = status === "retired" && "line-through";
+
 const years =
   since && until
     ? `${since} to ${until}`
@@ -32,20 +37,15 @@ const years =
 <section id={name} class="scroll-mt-8">
   <header class="mb-4">
     <h2 class="flex flex-wrap items-baseline gap-x-3 text-2xl font-medium">
-      <a
-        href={`#${name}`}
-        class={cn(
-          "font-mono hover:underline",
-          status === "retired" && "line-through decoration-2",
-        )}
-      >
+      <a href={`#${name}`} class={cn("font-mono hover:underline", strike)}>
         {name}
       </a>
-      <span class="text-base font-normal text-muted">{title}</span>
+      <span class={cn("text-base font-normal text-muted", strike)}>{title}</span
+      >
     </h2>
     <p class="mt-1 text-muted">
       {role}
-      {years && <span> · {years}</span>}
+      {years && <span>, {years}</span>}
       {
         status === "retired" && (
           <span class="ml-2 rounded border border-zinc-200 px-1 text-xs uppercase dark:border-night-border">

@@ -29,30 +29,57 @@ const machines = (
         <p class="text-muted">No machines listed yet.</p>
       ) : (
         <>
-          <nav aria-label="Machines" class="mb-12">
-            <ul class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-sm">
-              {machines.map(({ data }) => (
-                <li>
-                  <a
-                    href={`#${data.name}`}
-                    class={cn(
-                      "text-muted hover:underline",
-                      data.status === "retired" && "line-through",
-                    )}
-                  >
-                    {data.name}
-                  </a>
-                  {data.status === "retired" && (
-                    <span class="sr-only"> (retired)</span>
-                  )}
-                </li>
-              ))}
-            </ul>
+          <nav aria-label="Machines" class="space-y-4">
+            {[
+              { heading: "Current inventory", status: "active" },
+              { heading: "Retired", status: "retired" },
+            ].map(({ heading, status }) => {
+              const group = machines.filter((m) => m.data.status === status);
+              return (
+                group.length > 0 && (
+                  <div>
+                    <h2 class="mb-1 text-sm font-medium text-muted">
+                      {heading}
+                    </h2>
+                    <ul class="space-y-0.5">
+                      {group.map(({ data }) => (
+                        <li class="flex flex-wrap items-baseline gap-x-3">
+                          <a
+                            href={`#${data.name}`}
+                            class={cn(
+                              "font-mono hover:underline",
+                              status === "retired" && "line-through",
+                            )}
+                          >
+                            {data.name}
+                          </a>
+                          <span
+                            class={cn(
+                              "text-sm text-muted",
+                              status === "retired" && "line-through",
+                            )}
+                          >
+                            {data.title}, {data.role}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              );
+            })}
           </nav>
 
-          <div class="space-y-16">
-            {machines.map((machine) => (
-              <Machine machine={machine} />
+          <hr class="my-16 border-zinc-200 dark:border-night-border" />
+
+          <div>
+            {machines.map((machine, i) => (
+              <>
+                {i > 0 && (
+                  <hr class="my-16 border-zinc-200 dark:border-night-border" />
+                )}
+                <Machine machine={machine} />
+              </>
             ))}
           </div>
         </>
