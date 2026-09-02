@@ -1,4 +1,5 @@
 ---
+import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
@@ -33,14 +34,8 @@ const pageTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Font preloads -->
-    <link
-      rel="preload"
-      href="/fonts/geist-variable.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    <!-- Fonts -->
+    <Font cssVariable="--font-atkinson" preload={[{ style: "normal" }]} />
     <link
       rel="preload"
       href="/fonts/geist-mono-variable.woff2"
@@ -96,7 +91,7 @@ const pageTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
     </script>
   </head>
   <body
-    class="font-sans text-zinc-900 antialiased transition-colors dark:bg-zinc-900 dark:text-zinc-200"
+    class="font-sans text-zinc-900 antialiased transition-colors dark:bg-zinc-800 dark:text-zinc-300"
   >
     <div class={cn("mx-auto flex min-h-svh max-w-xl flex-col p-4", className)}>
       <Header />
