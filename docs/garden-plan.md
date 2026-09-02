@@ -128,8 +128,13 @@ committed shows the new date after deploy.
 
 ## Phase 3: Uses page
 
+Note (2026-09-02): hardware now has its own page, `/computer`, a per-machine inventory
+inspired by マリウス.com/computer, backed by the `computers` collection in
+`src/content/computers/`. The uses page ("gear" in the nav) therefore covers software and
+services only; drop `hardware.yaml` from the list below.
+
 - [ ] Data collection `uses` from `src/data/uses/*.yaml`, one file per category
-      (`hardware.yaml`, `desktop.yaml`, `cli.yaml`, `dev.yaml`, `services.yaml`), each a
+      (`desktop.yaml`, `cli.yaml`, `dev.yaml`, `services.yaml`), each a
       list of `{ name, url?, note?, since? }`. Schema in `content.config.ts` with a
       `file()` or `glob()` loader.
 - [ ] `src/pages/uses/index.astro`: intro paragraph, then one section per category in a

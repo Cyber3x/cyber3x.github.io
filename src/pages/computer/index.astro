@@ -1,0 +1,89 @@
+---
+import { getCollection } from "astro:content";
+import Machine from "../../components/Machine.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Layout from "../../layouts/Layout.astro";
+import { cn } from "../../lib/utils";
+
+const description = "The machines I work on, what runs on them, and why.";
+
+const machines = (
+  await getCollection(
+    "computers",
+    ({ data }) => data.public || import.meta.env.DEV,
+  )
+).sort(
+  (a, b) =>
+    a.data.order - b.data.order ||
+    a.data.status.localeCompare(b.data.status) ||
+    a.data.name.localeCompare(b.data.name),
+);
+---
+
+<Layout title="Computer" description={description}>
+  <main>
+    <SectionHeading title="Computer" description={description} />
+
+    {
+      machines.length === 0 ? (
+        <p class="text-muted">No machines listed yet.</p>
+      ) : (
+        <>
+          <nav aria-label="Machines" class="space-y-4">
+            {[
+              { heading: "Current inventory", status: "active" },
+              { heading: "Retired", status: "retired" },
+            ].map(({ heading, status }) => {
+              const group = machines.filter((m) => m.data.status === status);
+              return (
+                group.length > 0 && (
+                  <div>
+                    <h2 class="mb-1 text-sm font-medium text-muted">
+                      {heading}
+                    </h2>
+                    <ul class="space-y-0.5">
+                      {group.map(({ data }) => (
+                        <li class="flex flex-wrap items-baseline gap-x-3">
+                          <a
+                            href={`#${data.name}`}
+                            class={cn(
+                              "font-mono hover:underline",
+                              status === "retired" && "line-through",
+                            )}
+                          >
+                            {data.name}
+                          </a>
+                          <span
+                            class={cn(
+                              "text-sm text-muted",
+                              status === "retired" && "line-through",
+                            )}
+                          >
+                            {data.title}, {data.role}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              );
+            })}
+          </nav>
+
+          <hr class="my-16 border-zinc-200 dark:border-night-border" />
+
+          <div>
+            {machines.map((machine, i) => (
+              <>
+                {i > 0 && (
+                  <hr class="my-16 border-zinc-200 dark:border-night-border" />
+                )}
+                <Machine machine={machine} />
+              </>
+            ))}
+          </div>
+        </>
+      )
+    }
+  </main>
+</Layout>
