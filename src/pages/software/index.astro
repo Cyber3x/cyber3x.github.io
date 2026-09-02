@@ -75,9 +75,9 @@ const sections = await Promise.all(
                   {section.items.length === 0 ? (
                     <p class="mt-4 text-muted">Nothing listed yet.</p>
                   ) : (
-                    <ul class="mt-6 space-y-2">
+                    <ul class="mt-6 grid gap-y-2 sm:grid-cols-[max-content_1fr] sm:items-baseline sm:gap-x-6">
                       {section.items.map(({ name, url, note }) => (
-                        <li class="flex flex-wrap items-baseline gap-x-4 gap-y-0.5">
+                        <li class="flex flex-col sm:contents">
                           {url ? (
                             <a
                               href={url}
