@@ -11,7 +11,7 @@ items:
     note: vertical tabs, more tight than native
   - name: Refined GitHub
     url: https://addons.mozilla.org/firefox/addon/refined-github-/
-    note: QOL and fixes for GitHub
+    note: QOL changes and fixes for GitHub
   - name: SponsorBlock
     url: https://addons.mozilla.org/firefox/addon/sponsorblock/
     note: skip sponsored segments in YouTube videos
