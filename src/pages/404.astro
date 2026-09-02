@@ -1,6 +1,28 @@
 ---
 import SectionHeading from "@/components/SectionHeading.astro";
+import { SITE_NAV } from "@/consts";
 import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+// Every URL the site knows about, embedded so the client can suggest the closest one.
+const posts = await getCollection("posts", ({ data }) =>
+  import.meta.env.PROD ? data.public : true,
+);
+const computers = await getCollection("computers", ({ data }) => data.public);
+const software = await getCollection("software");
+
+const routes = [
+  ...SITE_NAV.map(({ label, href }) => ({ label, href })),
+  ...posts.map(({ id, data }) => ({ label: data.title, href: `/posts/${id}` })),
+  ...computers.map(({ data }) => ({
+    label: data.name,
+    href: `/computer#${data.name}`,
+  })),
+  ...software.map(({ id, data }) => ({
+    label: data.title,
+    href: `/software#${id}`,
+  })),
+];
 ---
 
 <Layout title="Page not found" description="There is nothing at this address.">
@@ -9,11 +31,95 @@ import Layout from "@/layouts/Layout.astro";
       title="Page not found"
       description="There is nothing at this address."
     />
-    <p>
+
+    <p id="fallback">
       Try the <a href="/" class="underline">home page</a> or the list of <a
         href="/posts"
         class="underline">posts</a
       >.
     </p>
+
+    <div id="suggestions" hidden>
+      <p>Did you mean one of these?</p>
+      <ul class="mt-2 space-y-0.5 font-mono"></ul>
+    </div>
+
+    <p id="random" hidden>
+      Not sure what you're looking for, but you can visit the <a
+        href="/"
+        class="underline">homepage</a
+      >, or <a href="/" class="underline">are you feelin' lucky?</a>
+    </p>
   </main>
 </Layout>
+
+<script is:inline define:vars={{ routes }} data-astro-rerun>
+  // Dice coefficient on character bigrams: forgiving of typos, missing
+  // segments, and swapped words, and it does not punish length differences the
+  // way Levenshtein distance does.
+  const normalize = (s) =>
+    decodeURIComponent(s)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+
+  const bigrams = (s) => {
+    const map = new Map();
+    for (let i = 0; i < s.length - 1; i++) {
+      const b = s.slice(i, i + 2);
+      map.set(b, (map.get(b) ?? 0) + 1);
+    }
+    return map;
+  };
+
+  const similarity = (a, b) => {
+    if (a.length < 2 || b.length < 2) return 0;
+    const ab = bigrams(a);
+    let shared = 0;
+    for (const [bigram, count] of bigrams(b)) {
+      const have = ab.get(bigram) ?? 0;
+      shared += Math.min(have, count);
+    }
+    return (2 * shared) / (a.length - 1 + (b.length - 1));
+  };
+
+  const typed = normalize(location.pathname + location.hash);
+  const scored = routes
+    .map((route) => ({
+      ...route,
+      score: Math.max(
+        similarity(typed, normalize(route.href)),
+        similarity(typed, normalize(route.label)),
+      ),
+    }))
+    .filter((route) => route.score >= 0.4)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
+
+  const fallback = document.getElementById("fallback");
+  const suggestions = document.getElementById("suggestions");
+  const random = document.getElementById("random");
+
+  if (scored.length > 0) {
+    const list = suggestions.querySelector("ul");
+    for (const { label, href } of scored) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = href;
+      a.className = "hover:underline";
+      a.textContent = href;
+      const span = document.createElement("span");
+      span.className = "ml-3 text-sm text-muted";
+      span.textContent = label;
+      li.append(a, span);
+      list.append(li);
+    }
+    fallback.hidden = true;
+    suggestions.hidden = false;
+  } else if (routes.length > 0) {
+    const pick = routes[Math.floor(Math.random() * routes.length)];
+    random.querySelectorAll("a")[1].href = pick.href;
+    fallback.hidden = true;
+    random.hidden = false;
+  }
+</script>
