@@ -4,19 +4,38 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans:
-    "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* --font-atkinson is emitted by Astro's <Font /> and already includes fallbacks. */
+  --font-sans: var(--font-atkinson);
   --font-mono:
     "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
+
+  /* Dark palette: Catppuccin Mocha, the same family Shiki uses for code blocks. */
+  --color-night: #1e1e2e; /* base: page background */
+  --color-night-surface: #313244; /* surface0: inline code, cells, hover */
+  --color-night-border: #45475a; /* surface1 */
+  --color-night-text: #cdd6f4; /* text */
+  --color-night-muted: #a6adc8; /* subtext0 */
+  --color-night-accent: #fab387; /* peach: headings, name */
+  --color-night-link: #89b4fa; /* blue */
+}
+
+/* Secondary text: descriptions, dates, footer, inactive nav. */
+@utility text-muted {
+  @apply text-zinc-600 dark:text-night-muted;
 }
 
 @layer base {
-  @font-face {
-    font-family: "Geist";
-    src: url("/fonts/geist-variable.woff2") format("woff2");
-    font-display: swap;
+  :root {
+    color-scheme: light;
+    /* 17px at the browser default of 16px; a percentage keeps user font-size settings. */
+    font-size: 106.25%;
+    /* Reserve the scrollbar's width on every page so the centered column never
+       jumps when navigating between short and long pages. */
+    scrollbar-gutter: stable;
+  }
+  .dark {
+    color-scheme: dark;
   }
   @font-face {
     font-family: "Geist Mono";
@@ -35,49 +54,50 @@
 
 @layer components {
   article {
+    @apply text-lg;
     p {
       @apply my-4 leading-relaxed;
     }
     h1 {
-      @apply my-4 mt-12 text-xl font-medium text-red-600 dark:text-orange-500;
+      @apply my-4 mt-12 text-2xl font-medium text-red-700 dark:text-night-accent;
     }
     h1:first-of-type {
       @apply mt-4;
     }
     h2 {
-      @apply my-4 mt-8 text-lg font-medium text-red-600 dark:text-orange-500;
+      @apply my-4 mt-8 text-xl font-medium text-red-700 dark:text-night-accent;
     }
     h3,
     h4,
     h5,
     h6 {
-      @apply my-4 font-medium text-red-600 dark:text-orange-500;
+      @apply my-4 font-medium text-red-700 dark:text-night-accent;
     }
     :not(pre) > code {
-      @apply rounded border border-zinc-200 bg-zinc-200/50 px-1 py-0.5 font-mono text-sm font-medium whitespace-nowrap text-black dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-white;
+      @apply rounded border border-zinc-200 bg-zinc-200/50 px-1 py-0.5 font-mono text-base font-medium text-black dark:border-night-border dark:bg-night-surface dark:text-night-text;
     }
     pre:has(code) {
-      @apply my-4 max-h-[600px] overflow-auto rounded-lg border border-zinc-200 p-4 font-mono text-sm font-medium dark:border-zinc-700;
+      @apply my-4 max-h-[600px] overflow-auto rounded-lg border border-zinc-200 p-4 font-mono text-sm font-medium dark:border-night-border;
     }
     img {
-      @apply my-4 rounded-lg border border-zinc-200 dark:border-zinc-700;
+      @apply my-4 rounded-lg border border-zinc-200 dark:border-night-border;
     }
     video {
-      @apply my-4 rounded-lg border border-zinc-200 dark:border-zinc-700;
+      @apply my-4 rounded-lg border border-zinc-200 dark:border-night-border;
     }
     blockquote {
-      @apply my-4 border-l-2 border-zinc-200 pl-4 dark:border-zinc-700;
+      @apply my-4 border-l-2 border-zinc-200 pl-4 dark:border-night-border;
     }
     a {
-      @apply text-blue-500 underline;
+      @apply text-blue-600 underline dark:text-night-link;
     }
     table {
       @apply my-4 w-full table-auto border-collapse text-sm;
       th {
-        @apply border-b border-zinc-200 p-4 text-left font-medium dark:border-zinc-700;
+        @apply border-b border-zinc-200 p-4 text-left font-medium dark:border-night-border;
       }
       td {
-        @apply border-b border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-800;
+        @apply border-b border-zinc-200 bg-zinc-50 p-4 dark:border-night-border dark:bg-night-surface/50;
       }
     }
     ol {
@@ -87,7 +107,7 @@
       @apply my-1 list-inside list-disc space-y-1 [&_ol]:pl-5 [&_ul]:pl-5;
     }
     kbd {
-      @apply rounded border border-b-2 border-zinc-200 bg-zinc-100 px-1 py-0.5 font-mono text-xs font-medium text-black dark:border-zinc-700 dark:bg-zinc-800 dark:text-white;
+      @apply rounded border border-b-2 border-zinc-200 bg-zinc-100 px-1 py-0.5 font-mono text-xs font-medium text-black dark:border-night-border dark:bg-night-surface dark:text-night-text;
     }
     mark {
       @apply dark:bg-yellow-500/50 dark:text-white;

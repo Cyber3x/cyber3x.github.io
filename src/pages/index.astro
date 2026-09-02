@@ -3,19 +3,12 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout
-  title={SITE_TITLE}
-  description={SITE_DESCRIPTION}
-  className="flex h-svh max-w-sm flex-col justify-center"
->
-  <main class="space-y-4">
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <main class="flex flex-1 items-center">
     <p>
-      <span class="font-bold text-red-600 dark:text-orange-500">Neven's</span> blog.
-      Welcome!
-    </p>
-    <p>
-      A piece of internet where I think, hopefully, and then share those
-      thoughts with strangers.
+      Hi, I'm <span class="font-bold text-red-700 dark:text-night-accent"
+        >Neven</span
+      >. I build software and this is where I keep what I learn along the way.
     </p>
   </main>
 </Layout>

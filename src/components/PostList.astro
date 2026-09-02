@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatDate } from "../lib/utils";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
+}
+
+const { posts } = Astro.props;
+---
+
+{
+  posts.length === 0 ? (
+    <p class="text-muted">Nothing here yet.</p>
+  ) : (
+    <ul class="flex flex-col gap-1.5">
+      {posts.map((post) => (
+        <li>
+          <a
+            href={`/posts/${post.id}`}
+            class="group flex items-baseline justify-between gap-3"
+          >
+            <span class="group-hover:underline">
+              {post.data.title}
+              {!post.data.public && (
+                <span class="ml-2 rounded border border-zinc-200 px-1 text-xs text-muted dark:border-night-border">
+                  draft
+                </span>
+              )}
+            </span>
+            <span class="text-nowrap text-muted">
+              {formatDate(post.data.date)}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

@@ -40,18 +40,20 @@ Do this first; the garden multiplies the number of pages and the sitemap must be
 
 ## Phase 1: Site shell for multiple sections
 
-- [ ] `src/consts.ts`: `SITE_TITLE` becomes the person, not "Neven's Blog"; add
+- [x] `src/consts.ts`: `SITE_TITLE` becomes the person, not "Neven's Blog"; add
       `SITE_NAV` = home, posts, notes, uses. `SITE_URL` stays `https://blog.nlukic.com`
-      until Phase 4.
-- [ ] `Header.astro` renders nav from `SITE_NAV`. Email link moves to the footer or the
-      home page intro.
-- [ ] New `src/pages/index.astro`: two-sentence intro, latest 5 posts, 5 most recently
-      updated notes, links to each section. Drop the `h-svh` centered layout; it does not
-      scale to three sections.
-- [ ] `src/pages/404.astro` with the shared layout.
-- [ ] Section index pages get a one-line description under the header so a visitor
-      landing from a search engine knows where they are.
-- [ ] Keep the `max-w-xl` reading column for posts and notes; the uses page may go wider.
+      until Phase 4. Unused `BASE` removed.
+- [x] `Header.astro` renders nav from `SITE_NAV` with the current section highlighted
+      (`aria-current="page"`). Email moved to a new `Footer.astro` alongside RSS and
+      source links; the footer is part of `Layout.astro`.
+- [x] New `src/pages/index.astro`: two-sentence intro, latest 5 posts. The recent-notes
+      block is added in Phase 2 once the collection exists. `h-svh` layout dropped.
+- [x] `src/pages/404.astro` with the shared layout.
+- [x] Section index pages get a one-line description via `SectionHeading.astro`.
+      `/notes` and `/uses` exist as stubs with their descriptions so the nav never 404s.
+- [x] Kept the `max-w-xl` reading column everywhere for now.
+- [x] Extra: `PostList.astro` shared by home and `/posts`; in dev it also lists drafts
+      with a "draft" badge. Page `<title>` is now `Page · Neven Lukić` except on home.
 
 Verify: nav works with view transitions, theme persists, `/posts/...` URLs unchanged.
 

@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  /** Render as h2 inside another page instead of the page's h1. */
+  level?: 1 | 2;
+}
+
+const { title, description, level = 1 } = Astro.props;
+const Tag = level === 1 ? "h1" : "h2";
+---
+
+<div class="mb-6">
+  <Tag class="text-xl font-medium">{title}</Tag>
+  {description && <p class="mt-1 text-muted">{description}</p>}
+</div>

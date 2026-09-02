@@ -1,0 +1,19 @@
+---
+import SectionHeading from "../components/SectionHeading.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Page not found" description="There is nothing at this address.">
+  <main>
+    <SectionHeading
+      title="Page not found"
+      description="There is nothing at this address."
+    />
+    <p>
+      Try the <a href="/" class="underline">home page</a> or the list of <a
+        href="/posts"
+        class="underline">posts</a
+      >.
+    </p>
+  </main>
+</Layout>
