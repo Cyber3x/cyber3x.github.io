@@ -4,7 +4,10 @@ import Layout from "../../layouts/Layout.astro";
 import { formatDate } from "../../lib/utils";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
+  // Drafts (public: false) are only built in dev so they can be previewed.
+  const posts = await getCollection("posts", ({ data }) =>
+    import.meta.env.PROD ? data.public : true,
+  );
   return posts.map((post) => ({
     params: { slug: post.id },
     props: post,
