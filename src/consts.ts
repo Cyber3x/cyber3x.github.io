@@ -1,4 +1,4 @@
-export const SITE_URL = "https://blog.nlukic.com";
+export const SITE_URL = "https://nlukic.com";
 export const SITE_TITLE = "SUDO INSTALL OPSEC";
 export const SITE_DESCRIPTION =
   "Neven's corner of the internet: blog posts, public notes, and the tools I use.";
