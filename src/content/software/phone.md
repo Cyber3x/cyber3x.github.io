@@ -8,7 +8,7 @@ items:
     note: auto change theme based on light intensity
   - name: Aegis
     url: https://getaegis.app
-    note: 2FA 
+    note: 2FA
   - name: AntennaPod
     url: https://antennapod.org
     note: podcasts
@@ -41,7 +41,7 @@ items:
     note: Jellyfin client I'm testing out
   - name: FUTO Keyboard
     url: https://keyboard.futo.org
-    note: keyboard 
+    note: keyboard
   - name: Gadgetbridge
     url: https://gadgetbridge.org
     note: wearables without vendor cloud
@@ -50,7 +50,7 @@ items:
     note: tracks to GPX
   - name: Jellyfin
     url: https://jellyfin.org
-    note: for linux ISO access 
+    note: for linux ISO access
   - name: Karakeep
     url: https://karakeep.app
     note: (maybe) read it later
