@@ -1,0 +1,29 @@
+---
+import SectionHeading from "@/components/SectionHeading.astro";
+import { BLUESKY_LINK } from "@/consts";
+import Layout from "@/layouts/Layout.astro";
+
+const title = "How to reach me";
+---
+
+<Layout title={title} description={title}>
+  <main>
+    <SectionHeading title={title} />
+
+    <dl
+      class="grid gap-y-0.5 sm:grid-cols-[max-content_1fr] sm:items-baseline sm:gap-x-6"
+    >
+      <dt class="text-sm text-muted">email</dt>
+      <dd class="font-mono">contact [at] nlukic [dot] com</dd>
+      <dt class="text-sm text-muted">bluesky</dt>
+      <dd>
+        <a
+          href={BLUESKY_LINK}
+          class="font-mono hover:underline"
+          target="_blank"
+          rel="noopener noreferrer me">@nlukic.com</a
+        >
+      </dd>
+    </dl>
+  </main>
+</Layout>
